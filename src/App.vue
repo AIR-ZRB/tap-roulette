@@ -11,11 +11,9 @@
                 :key="item.left + index"
                 class="circle"
                 :style="touchPosition[index]"
-            >
-                <span class="triangle" :style="touchPosition[index]"></span>
-            
-            </div>
+            ></div>
         </div>
+        <audio src="@/assets/bubble.mp3" ref="bubble"></audio>
     </div>
 </template>
 
@@ -76,6 +74,8 @@ export default {
                 "blue",
                 "green",
             ];
+            this.$refs.bubble.load();
+            this.$refs.bubble.play();
             event.touches.forEach((item) => {
                 const random = parseInt(Math.random() * this.color.length);
                 const domWidth = 140;
@@ -103,6 +103,11 @@ export default {
             this.reset(event);
         };
     },
+    watch: {
+        touchPosition() {
+            console.log(this.touchPosition);
+        },
+    },
 };
 </script>
 
@@ -125,9 +130,9 @@ body {
     overflow: hidden;
 }
 .circle {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+
     position: absolute;
     transition: all 0.5s;
     opacity: 1;
@@ -142,16 +147,6 @@ body {
     from {
         transform: rotate(360deg);
     }
-}
-
-.triangle {
-    display: block;
-    width: 20%;
-    height: 10%;
-    transform: rotate(45deg);
-
-    opacity: 1;
-    z-index: -1;
 }
 
 .start-button {
